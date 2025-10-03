@@ -5,22 +5,26 @@ import com.romero.companies_crud.entities.Company;
 import com.romero.companies_crud.services.CompanyService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
 @RestController
-@AllArgsConstructor
 @RequestMapping(path = "company")
-@Slf4j
 @Tag(name="Companies resource")
 
 public class CompanyController {
 
+    private static final Logger log = LoggerFactory.getLogger(CompanyController.class);
     private final CompanyService companyService;
+
+    // Constructor for dependency injection
+    public CompanyController(CompanyService companyService) {
+        this.companyService = companyService;
+    }
 
     @Operation(summary="Give a name to the company")
     @GetMapping(path = "{name}")

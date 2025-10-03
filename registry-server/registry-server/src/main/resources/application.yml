@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: registry-name
+
+server:
+  port: 8080
+
+eureka:
+  client:
+    registry-with-eureka: false
+    fetch-registry: false
+  server:
+    enable-self-preservation: false
