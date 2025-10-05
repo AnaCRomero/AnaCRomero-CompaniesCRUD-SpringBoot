@@ -1,13 +1,18 @@
-spring:
+﻿spring:
   application:
     name: companies-crud
+  profiles:
+    default: default
+  config:
+    import: "optional:configserver:http://localhost:7777"
+
   datasource:
-    url: jdbc:postgresql://localhost:5433/companies
-    username: admin
-    password: Perritos12345
+    url: ${spring.datasource.url}
+    username: ${spring.datasource.username}
+    password: ${spring.datasource.password}
     hikari:
-      connection-timeout: 20000
-      maximum-pool-size: 5
+      connection-timeout: ${spring.datasource.hikari.connection-timeout}
+      maximum-pool-size: ${spring.datasource.hikari.maximum-pool-size}
 
 logging:
   level:
@@ -22,12 +27,12 @@ logging:
 server:
   servlet:
     context-path: /companies-crud
-  port: 0
+  port: 8081
 
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8080/eureka/
+      defaultZone: http://localhost:8080
     register-with-eureka: true
     fetch-registry: true
   instance:

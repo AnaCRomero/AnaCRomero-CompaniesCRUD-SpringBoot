@@ -1,0 +1,33 @@
+server:
+  port: 7777
+
+spring:
+  application:
+    name: config-server
+  profiles:
+    active: default
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/AnaCRomero/microservicios-config.git
+          default-label: main
+          clone-on-start: true
+          username: AnaCRomero
+          password: ${GIT_TOKEN}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8080/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${random.int}
