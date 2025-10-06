@@ -1,0 +1,30 @@
+package com.anaromero.report_ms.config;
+
+import feign.Logger;
+import feign.Request;
+import feign.Retryer;
+import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClient;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import java.util.concurrent.TimeUnit;
+
+@Configuration
+@LoadBalancerClient(name = "companies-crud")
+public class FeignConfig {
+
+    @Bean
+    public Logger.Level feignLoggerLevel() {
+        return Logger.Level.FULL;
+    }
+
+    @Bean
+    public Request.Options options() {
+        return new Request.Options(2000, TimeUnit.MILLISECONDS, 10000, TimeUnit.MILLISECONDS, true);
+    }
+
+    @Bean
+    public Retryer retryer() {
+        return new Retryer.Default(100, 1000, 3);
+    }
+}

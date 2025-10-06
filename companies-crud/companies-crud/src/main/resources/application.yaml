@@ -7,12 +7,12 @@
     import: "optional:configserver:http://localhost:7777"
 
   datasource:
-    url: ${spring.datasource.url}
-    username: ${spring.datasource.username}
-    password: ${spring.datasource.password}
+    url: jdbc:postgresql://localhost:5433/companies
+    username: admin
+    password: Perritos12345
     hikari:
-      connection-timeout: ${spring.datasource.hikari.connection-timeout}
-      maximum-pool-size: ${spring.datasource.hikari.maximum-pool-size}
+      connection-timeout: 20000
+      maximum-pool-size: 10
 
 logging:
   level:
@@ -32,9 +32,37 @@ server:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8080
+      defaultZone: http://localhost:8080/eureka/
     register-with-eureka: true
     fetch-registry: true
   instance:
     prefer-ip-address: true
-    instance-id: ${spring.application.name}:${random.int}
+    instance-id: ${spring.application.name}:${server.port}
+
+---
+# Profile for instance 2
+spring:
+  config:
+    activate:
+      on-profile: instance2
+  application:
+    name: companies-crud
+
+server:
+  port: 8084
+  servlet:
+    context-path: /companies-crud
+
+---
+# Profile for instance 3
+spring:
+  config:
+    activate:
+      on-profile: instance3
+  application:
+    name: companies-crud
+
+server:
+  port: 8085
+  servlet:
+    context-path: /companies-crud
